@@ -10,18 +10,21 @@
 
 ## 2. Inspect your .env file
 
-This is what the .env file should look like (e.g. .env.local). 
 - If you are running the microservice outside Docker, make sure to set your DATABASE_HOST as localhost
 
+### IMPORTANT!
+
+- For test purposes I will post the .env in this README file
+
 ```
-DATABASE_USER=
-DATABASE_PASSWORD=
-DATABASE_NAME=
-DATABASE_HOST=
-DATABASE_PORT=
-SCHEDULER_SECONDS_INTERVAL=
-SLACK_WEBHOOK_URL=
-SLA_CONFIG_PATH=
+DATABASE_USER=postgres
+DATABASE_PASSWORD=postgres
+DATABASE_NAME=practical_test
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+SCHEDULER_SECONDS_INTERVAL=60
+SLACK_WEBHOOK_URL=http://localhost:8001
+SLA_CONFIG_PATH=sla_config.yaml
 ```
 
 Docker Compose will substitute these into any ${...} entries in your compose file
