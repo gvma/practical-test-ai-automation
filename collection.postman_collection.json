@@ -39,7 +39,7 @@
 				"auth": {
 					"type": "noauth"
 				},
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"url": {
 					"raw": "localhost:8001/slack/mock",
@@ -71,14 +71,14 @@
 					}
 				],
 				"url": {
-					"raw": "localhost:8000/tickets/15",
+					"raw": "localhost:8000/tickets/1",
 					"host": [
 						"localhost"
 					],
 					"port": "8000",
 					"path": [
 						"tickets",
-						"15"
+						"1"
 					]
 				}
 			},
@@ -93,7 +93,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8000/tickets/dashboard?status=2&page=1&page_size=5",
+					"raw": "http://localhost:8000/tickets/dashboard?status=0&page=1&page_size=5",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -106,7 +106,7 @@
 					"query": [
 						{
 							"key": "status",
-							"value": "2"
+							"value": "0"
 						},
 						{
 							"key": "page",
