@@ -6,6 +6,8 @@
 
 - Create a .env file in the same directory as the docker-compose.yml
 
+- Make sure you have Postman installed on your machine
+
 ## 2. Inspect your .env file
 
 This is what the .env file should look like (e.g. .env.local). 
