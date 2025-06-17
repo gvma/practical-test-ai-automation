@@ -1,0 +1,125 @@
+{
+	"info": {
+		"_postman_id": "ca0022fe-feeb-4fd5-ac88-b81ab2634bde",
+		"name": "Practical Test - AI & Automation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41489171"
+	},
+	"item": [
+		{
+			"name": "Create Tickets",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"id\": 1,\n    \"priority\": 2,\n    \"updated_at\": \"1900-06-16T15:00:00Z\",\n    \"customer_tier\": 1,\n    \"response_sla_deadline\": \"2025-06-20T22:00:00Z\",\n    \"resolution_sla_deadline\": \"2025-06-20T22:30:00Z\"\n  }\n]\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/tickets",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"tickets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mock Slack API",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8001/slack/mock",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"slack",
+						"mock"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get ticket by id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-Correlation-ID",
+						"value": "a7925e90-b3a5-4ab2-854c-5ac1c70866a2",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "localhost:8000/tickets/15",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"tickets",
+						"15"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dashboard",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/tickets/dashboard?status=2&page=1&page_size=5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"tickets",
+						"dashboard"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "2"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "page_size",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
