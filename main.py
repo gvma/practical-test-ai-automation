@@ -1,25 +1,22 @@
-import asyncio
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, Depends
 from app.config.config import lifespan
-from app.exceptions import handlers
-from app.exceptions.exceptions import NotFoundException, UseCaseException, DBException
+from app.config.exception_handlers import register_exception_handlers
+from app.config.logging import setup_logging
 from app.controllers.ticket_controller import router as tickets_router
-from app.websocket.manager import manager
+from app.websocket.routes import router as websocket_router
+from app.dependencies import logging_dependency
+import structlog
 
-app = FastAPI(lifespan=lifespan) # type: ignore
+setup_logging()
+logger = structlog.get_logger()
 
-app.add_exception_handler(UseCaseException, handlers.use_case_exception_handler) # type: ignore
-app.add_exception_handler(DBException, handlers.db_exception_handler) # type: ignore
-app.add_exception_handler(NotFoundException, handlers.not_found_exception_handler) # type: ignore
-app.add_exception_handler(Exception, handlers.generic_exception_handler)
+app = FastAPI(lifespan=lifespan)
 
+register_exception_handlers(app)
 
-@app.websocket("/ws/alerts")
-async def alerts_ws(websocket: WebSocket):
-    await manager.connect(websocket)
-    try:
-        await asyncio.Event().wait()
-    except WebSocketDisconnect:
-        manager.disconnect(websocket)
+app.include_router(
+    tickets_router,
+    dependencies=[Depends(logging_dependency)],
+)
 
-app.include_router(tickets_router)
+app.include_router(websocket_router)

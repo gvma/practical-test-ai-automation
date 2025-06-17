@@ -2,20 +2,13 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
 from app.config.sla_config import SLAConfig
+from app.config.settings import settings
 
-from dotenv import load_dotenv
-
-import os
 import threading
-
-load_dotenv()
-sla_config_path = os.getenv("SLA_CONFIG_PATH")
-if sla_config_path is None:
-    raise RuntimeError("SLA config path is not set.")
 
 class SLAConfigWatcher(FileSystemEventHandler):
     def on_modified(self, event): # type: ignore
-        if event.src_path.endswith(sla_config_path): # type: ignore
+        if event.src_path.endswith(settings.SLA_CONFIG_PATH): # type: ignore
             print(vars(event))
             print("[WATCH] SLA config changed. Reloading...")
             SLAConfig.load_config()

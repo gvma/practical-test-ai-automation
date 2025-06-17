@@ -41,7 +41,7 @@ class TicketService:
                 )
 
                 return TicketResponse(
-                    status=ticket.status,  # type: ignore
+                    status=ticket.status,
                     escalation_level=ticket.escalation_level,
                     remaining_seconds=remaining_time
                 )
@@ -122,11 +122,11 @@ class TicketService:
                 responses: List[TicketResponse] = []
                 for t in tickets:
                     remaining = calculate_remaining_seconds(
-                        t.created_at, t.resolution_sla_deadline  # type: ignore
+                        t.created_at, t.resolution_sla_deadline
                     )
                     responses.append(
                         TicketResponse(
-                            status=t.status,  # type: ignore
+                            status=t.status,
                             escalation_level=t.escalation_level,
                             remaining_seconds=remaining,
                         )

@@ -1,15 +1,12 @@
-# import sys
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine.url import make_url
 from sqlalchemy.exc import ProgrammingError
-
-# import psycopg2
 
 def create_database(database_url: str):
     url = make_url(database_url)
     
     db_name = url.database
-    url = url.set(database="postgres")  # conecta à instância, não ao banco-alvo
+    url = url.set(database="postgres")
 
     engine = create_engine(url)
     conn = engine.connect()
@@ -28,10 +25,5 @@ def create_database(database_url: str):
 
 
 if __name__ == "__main__":
-    # if len(sys.argv) < 2:
-    #     print("Usage: python create_db.py postgresql://user:pass@host:port/dbname")
-    #     sys.exit(1)
-    
-    db_url = "postgresql://postgres:postgres@localhost:5432/practical_test"
-    # db_url = sys.argv[1]
+    db_url = "postgresql://postgres:postgres@postgres-service:5432/practical_test"
     create_database(db_url)

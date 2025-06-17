@@ -1,19 +1,14 @@
-import yaml
-import os
-
 from pathlib import Path
 from typing import Dict, Any
 
-from dotenv import load_dotenv
+from app.config.settings import settings
 
-load_dotenv()
-sla_config_path = os.getenv("SLA_CONFIG_PATH")
-if sla_config_path is None:
-    raise RuntimeError("SLA config path is not set.")
+import yaml
+
 
 class SLAConfig:
     _config: Dict[str, Any] = {}
-    _config_path: Path = Path(sla_config_path)
+    _config_path: Path = Path(settings.SLA_CONFIG_PATH)
 
     @classmethod
     def load_config(cls) -> None:
