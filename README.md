@@ -15,6 +15,7 @@
 ### IMPORTANT!
 
 - For test purposes I will post the .env in this README file
+- Create the .env file in the root of your cloned project with this content:
 
 ```
 DATABASE_USER=postgres
