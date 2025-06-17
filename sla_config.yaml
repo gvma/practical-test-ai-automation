@@ -1,0 +1,12 @@
+SLA:
+  LOW:
+    BRONZE:
+      response_minutes: 60
+      resolution_minutes: 180
+    SILVER:
+      response_minutes: 45
+      resolution_minutes: 120
+  HIGH:
+    PLATINUM:
+      response_minutes: 10
+      resolution_minutes: 30
