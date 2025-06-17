@@ -42,4 +42,3 @@ async def lifespan(app: FastAPI):
     yield
 
     scheduler.shutdown()
-    print("Scheduler finalizado")
