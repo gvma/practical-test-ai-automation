@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from sqlalchemy import Column, DateTime, Enum, Index, Integer, func
 from sqlmodel import SQLModel, Field
-from enum import IntEnum
+from enum import IntEnum, StrEnum
 from typing import Optional
 
 class Priority(IntEnum):
@@ -19,6 +19,10 @@ class TicketStatus(IntEnum):
     OPEN = 0
     ONGOING = 1
     CLOSED = 2
+    
+class EscalationLevel(StrEnum):
+    ALERT = "ALERT"
+    BREACH = "BREACH"
 
 
 class Ticket(SQLModel, table=True):
@@ -49,12 +53,12 @@ class Ticket(SQLModel, table=True):
         sa_column=Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
     )
 
-    status: Optional[TicketStatus] = Field(
-        default=None,
+    status: TicketStatus = Field(
+        default=TicketStatus.OPEN,
         sa_column=Column(Enum(TicketStatus, name="ticket_status_enum"), nullable=False, default=0)
     )
 
-    escalation_level: Optional[str]
+    escalation_level: Optional[EscalationLevel]
     resolved_at: Optional[datetime] = Field(default=None)
     response_sla_deadline: datetime = Field(default=None, nullable=False)
     resolution_sla_deadline: Optional[datetime] = Field(default=None, nullable=False)
