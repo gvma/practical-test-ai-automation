@@ -17,13 +17,6 @@ from app.utils.utils import calculate_remaining_seconds, to_datetime
 from app.websocket.manager import manager
 
 
-def send_slack_webhook(ticket_id: int, remaining_percent: float) -> None:
-    slack_webhook = SlackWebhook()
-    response = slack_webhook.send_alert(ticket_id, remaining_percent)
-    data = response.json()
-    logger.info(f"[Slack] webhook response for ticket {ticket_id}:\n{json.dumps(data, indent=2)}")
-
-
 class TicketService:
     def __init__(self):
         pass
@@ -217,17 +210,23 @@ class TicketService:
         total_seconds = (deadline - created_at).total_seconds()
         remaining_seconds = calculate_remaining_seconds(created_at, deadline)
         return 100.0 - ((remaining_seconds / total_seconds) * 100.0)
+    
+    def _send_slack_webhook(self, ticket_id: int, remaining_percent: float) -> None:
+        slack_webhook = SlackWebhook()
+        response = slack_webhook.send_alert(ticket_id, remaining_percent)
+        data = response.json()
+        logger.info(f"[Slack] webhook response for ticket {ticket_id}:\n{json.dumps(data, indent=2)}")
 
     def _handle_alert(self, ticket: Ticket, remaining_percent: float) -> None:
         logger.info(f"[ALERT] Ticket {ticket.id}: {remaining_percent:.2f}% SLA remaining")
         ticket.escalation_level = EscalationLevel.ALERT
-        send_slack_webhook(ticket.id, remaining_percent)
+        self._send_slack_webhook(ticket.id, remaining_percent)
         self._schedule_broadcast(ticket.id, "ALERT", remaining_percent)
 
     def _handle_breach(self, ticket: Ticket, remaining_percent: float) -> None:
         logger.info(f"[BREACH] Ticket {ticket.id}: SLA violated")
         ticket.escalation_level = EscalationLevel.BREACH
-        send_slack_webhook(ticket.id, remaining_percent)
+        self._send_slack_webhook(ticket.id, remaining_percent)
         self._schedule_broadcast(ticket.id, "BREACH", remaining_percent)
 
     def _schedule_broadcast(self, ticket_id: int, event: str, remaining_percent: float):
