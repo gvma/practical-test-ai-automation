@@ -26,6 +26,7 @@ services:
     depends_on:
       - postgres-service
       - mock-api
+    restart: always
 
   postgres-service:
     image: postgres
