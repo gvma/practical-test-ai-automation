@@ -30,10 +30,6 @@ class TicketService:
                     logger.warning(f"Ticket {ticket_id} not found")
                     raise NotFoundException("Ticket not found.")
 
-                if ticket.escalation_level is None:
-                    logger.error(f"Invalid ticket state for id {ticket_id}: status or escalation_level is None")
-                    raise UnexpectedException("Ticket has incomplete data.")
-
                 remaining_time = calculate_remaining_seconds(
                     ticket.created_at,
                     ticket.resolution_sla_deadline
