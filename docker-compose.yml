@@ -18,11 +18,14 @@ services:
       - DATABASE_USER=${DATABASE_USER}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
       - DATABASE_NAME=${DATABASE_NAME}
-      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_HOST=postgres-service
       - DATABASE_PORT=${DATABASE_PORT}
       - SCHEDULER_SECONDS_INTERVAL=${SCHEDULER_SECONDS_INTERVAL}
+      - SLACK_WEBHOOK_URL=http://mock-api:8001
+      - SLA_CONFIG_PATH=${SLA_CONFIG_PATH}
     depends_on:
       - postgres-service
+      - mock-api
 
   postgres-service:
     image: postgres
